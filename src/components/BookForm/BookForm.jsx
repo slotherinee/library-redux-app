@@ -1,6 +1,12 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { addBook } from '../../redux/slices/booksSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setError } from '../../redux/slices/errorSlice'
+import { FaSpinner } from 'react-icons/fa'
+import {
+  addBook,
+  fetchBook,
+  selectIsLoadingAPI,
+} from '../../redux/slices/booksSlice'
 import createBookWithId from '../../utilFunctions/createBookWithId'
 import booksData from '../../data/books.json'
 import './BookForm.css'
@@ -8,6 +14,7 @@ import './BookForm.css'
 const BookForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
+  const isLoadingAPI = useSelector(selectIsLoadingAPI)
   const dispatch = useDispatch()
 
   const handleAddRandomBook = () => {
@@ -24,7 +31,13 @@ const BookForm = () => {
       dispatch(addBook(createBookWithId({ title, author })))
       setTitle('')
       setAuthor('')
+    } else {
+      dispatch(setError('Title and author are required'))
     }
+  }
+
+  const handleAddRandomBookViaAPI = () => {
+    dispatch(fetchBook(import.meta.env.VITE_API_URL))
   }
 
   return (
@@ -49,17 +62,26 @@ const BookForm = () => {
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
-        <button
-          type='submit'
-          onClick={handleSubmit}
-        >
+        <button type='submit' onClick={handleSubmit}>
           Add book
         </button>
-        <button
-          onClick={handleAddRandomBook}
-          type='button'
-        >
+        <button onClick={handleAddRandomBook} type='button'>
           Add random book
+        </button>
+
+        <button
+          onClick={handleAddRandomBookViaAPI}
+          type='button'
+          disabled={isLoadingAPI}
+        >
+          {isLoadingAPI ? (
+            <>
+              <span>Loading book...</span>
+              <FaSpinner className='spinner' />
+            </>
+          ) : (
+            'Add random book via API'
+          )}
         </button>
       </form>
     </div>

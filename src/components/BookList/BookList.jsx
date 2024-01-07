@@ -9,7 +9,7 @@ import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs'
 import './BookList.css'
 
 const BookList = () => {
-  const books = useSelector((state) => state.books)
+  const books = useSelector((state) => state.books.books)
   const dispatch = useDispatch()
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
@@ -41,10 +41,7 @@ const BookList = () => {
     return text.split(regex).map((chunk, i) => {
       if (chunk.toLowerCase() === filter.toLowerCase()) {
         return (
-          <span
-            key={i}
-            className='highlight'
-          >
+          <span key={i} className='highlight'>
             {chunk}
           </span>
         )
