@@ -49,8 +49,8 @@ export const booksSlice = createSlice({
     }),
       builder.addCase(fetchBook.fulfilled, (state, action) => {
         state.isLoadingAPI = false
-        if (action.payload.title && action.payload.author) {
-          state.books.push(createBookWithId(action.payload, 'API'))
+        if (action?.payload?.title && action?.payload?.author) {
+          state.books.push(createBookWithId(action.payload))
         }
       }),
       builder.addCase(fetchBook.rejected, (state) => {
