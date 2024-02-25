@@ -1,1 +1,3 @@
-# Preview => https://slotherinee.github.io/library-redux-app/
+React app with redux
+
+# Preview: https://slotherinee.github.io/library-redux-app/
